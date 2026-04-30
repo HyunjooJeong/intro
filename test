@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>난임 부부 공동 캘린더</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #faf7f5;
+      color: #2f2f2f;
+    }
+
+    .app {
+      max-width: 420px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: #fff;
+      padding: 20px;
+    }
+
+    header {
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: 24px;
+      margin: 0 0 8px;
+    }
+
+    header p {
+      font-size: 14px;
+      color: #777;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .partner-box {
+      background: #fff3f0;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .partner-box strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    .partner-box span {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .calendar-header h2 {
+      font-size: 18px;
+      margin: 0;
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .day-name {
+      text-align: center;
+      font-size: 12px;
+      color: #999;
+      margin-bottom: 4px;
+    }
+
+    .day {
+      min-height: 56px;
+      border-radius: 14px;
+      background: #f8f8f8;
+      padding: 8px;
+      font-size: 13px;
+      position: relative;
+    }
+
+    .day.active {
+      background: #ffe8e2;
+      border: 1px solid #ffb7a8;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-top: 8px;
+      margin-right: 3px;
+    }
+
+    .ovulation { background: #ff7aa2; }
+    .hospital { background: #5b8def; }
+    .procedure { background: #9b6ef3; }
+
+    .section-title {
+      font-size: 17px;
+      margin: 0 0 12px;
+    }
+
+    .event-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .event-card {
+      border: 1px solid #eee;
+      border-radius: 16px;
+      padding: 14px;
+      background: #fff;
+    }
+
+    .event-card h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+    }
+
+    .event-meta {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      margin-bottom: 8px;
+      background: #f1f1f1;
+    }
+
+    form {
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 6px;
+      color: #555;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 14px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    textarea {
+      resize: none;
+      min-height: 80px;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 600;
+      background: #ff7f6e;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #f36f5e;
+    }
+
+    .notice {
+      margin-top: 14px;
+      font-size: 12px;
+      color: #888;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>공동 캘린더</h1>
+      <p>배란일, 병원 일정, 시술 일정을 배우자와 함께 관리해요.</p>
+    </header>
+
+    <section class="partner-box">
+      <strong>배우자와 연결됨</strong>
+      <span>이 캘린더는 배우자로 등록된 사용자와 함께 공유됩니다.</span>
+    </section>
+
+    <section>
+      <div class="calendar-header">
+        <h2>2026년 5월</h2>
+      </div>
+
+      <div class="calendar">
+        <div class="day-name">일</div>
+        <div class="day-name">월</div>
+        <div class="day-name">화</div>
+        <div class="day-name">수</div>
+        <div class="day-name">목</div>
+        <div class="day-name">금</div>
+        <div class="day-name">토</div>
+
+        <div class="day">1</div>
+        <div class="day">2</div>
+        <div class="day">3</div>
+        <div class="day active">4<br><span class="dot ovulation"></span></div>
+        <div class="day">5</div>
+        <div class="day">6</div>
+        <div class="day">7</div>
+
+        <div class="day">8</div>
+        <div class="day">9</div>
+        <div class="day active">10<br><span class="dot hospital"></span></div>
+        <div class="day">11</div>
+        <div class="day">12</div>
+        <div class="day active">13<br><span class="dot procedure"></span></div>
+        <div class="day">14</div>
+
+        <div class="day">15</div>
+        <div class="day">16</div>
+        <div class="day">17</div>
+        <div class="day">18</div>
+        <div class="day">19</div>
+        <div class="day">20</div>
+        <div class="day">21</div>
+
+        <div class="day">22</div>
+        <div class="day">23</div>
+        <div class="day">24</div>
+        <div class="day">25</div>
+        <div class="day">26</div>
+        <div class="day">27</div>
+        <div class="day">28</div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">공유 일정</h2>
+
+      <div class="event-list">
+        <div class="event-card">
+          <span class="tag">배란일</span>
+          <h3>배란 예정일</h3>
+          <div class="event-meta">
+            날짜: 2026.05.04<br />
+            참여자: 부부 모두 확인<br />
+            등록자: 나
+          </div>
+        </div>
+
+        <div class="event-card">
+          <span class="tag">병원 방문</span>
+          <h3>난임 클리닉 진료</h3>
+          <div class="event-meta">
+            날짜: 2026.05.10 오전 10:30<br />
+            참여자: 함께 방문<br />
+            등록자: 배우자
+          </div>
+        </div>
+
+        <div class="event-card">
+          <span class="tag">시술 일정</span>
+          <h3>시험관 시술 상담</h3>
+          <div class="event-meta">
+            날짜: 2026.05.13 오후 2:00<br />
+            참여자: 아내 방문<br />
+            등록자: 나
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <form>
+      <h2 class="section-title">일정 등록</h2>
+
+      <label for="event-title">일정 제목</label>
+      <input id="event-title" type="text" placeholder="예: 병원 방문" />
+
+      <label for="event-type">일정 유형</label>
+      <select id="event-type">
+        <option>배란일</option>
+        <option>병원 일정</option>
+        <option>시술 일정</option>
+        <option>기타</option>
+      </select>
+
+      <label for="event-date">날짜</label>
+      <input id="event-date" type="date" />
+
+      <label for="event-time">시간</label>
+      <input id="event-time" type="time" />
+
+      <label for="participant">참여자</label>
+      <select id="participant">
+        <option>아내 방문</option>
+        <option>남편 방문</option>
+        <option>함께 방문</option>
+        <option>일정 공유만</option>
+      </select>
+
+      <label for="memo">메모</label>
+      <textarea id="memo" placeholder="병원명, 준비물, 담당 의사 등을 입력하세요."></textarea>
+
+      <button type="button" onclick="alert('일정이 배우자와 공유되는 캘린더에 등록되었습니다.')">
+        공동 캘린더에 등록
+      </button>
+
+      <p class="notice">
+        등록한 일정은 내 계정에만 저장되는 것이 아니라, 배우자로 연결된 사용자의 캘린더에도 함께 표시됩니다.
+      </p>
+    </form>
+  </div>
+</body>
+</html>
